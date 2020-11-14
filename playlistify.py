@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-##########################################################################################
+#########################################################################################
 # Playlistify - A simple web parser for creating Spotify playlists 
 # Files: 
 #   playlistify.py - main script to parse HTML and make calls to Spotify API
