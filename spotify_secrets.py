@@ -10,8 +10,6 @@
 # November 2020
 ##########################################################################################
 
-# Here we define the auth varialbes needed to connect to Spotify's Web API
-# You obtain these from your Spotify Developer account
-
-CLIENT_ID = "INSERT CLIENT ID STRING HERE"
-CLIENT_SECRET = "INSERT CLIENT SECRET STRING HERE"
+client_id = 'INSERT YOUR CLIENT ID HERE'
+client_secret = 'INSERT YOUR CLIENT SECRET HERE'
+redirect_uri = 'http://127.0.0.1:3333'
