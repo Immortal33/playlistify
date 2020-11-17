@@ -25,7 +25,7 @@ git clone https://github.com/Immortal33/Playlistify.git
 ## Edit the credentials file, update your application
 In the repo there's a file called spotify_secrets.py. You will need to edit this file by adding your Client ID and Client Secret from your Spotify Application that you registered in the Installation phase above. 
 
-You may notice that the file has the Spotify URI set to http:127.0.0.1:3333. You can set this to whatever URL you want (it doesn't have to be anything that resolves globally). However, at this point you need to go into your application in the Spotify dahsboard and make sure that the Redirect URI is set to the same URI that is configured in your spotify_secrets.py.  
+You may notice that the file has the Spotify URI set to http://127.0.0.1:3333. You can set this to whatever URL you want (it doesn't have to be anything that resolves globally). However, at this point you need to go into your application in the Spotify dahsboard and make sure that the Redirect URI is set to the same URI that is configured in your spotify_secrets.py.  
 
 ## Running the script
 At this point you should be able to run the script. The first time that you run it, you'll need to follow the instructions given by copying the URL it gives you into a web browser. This will authorize your app to make programatic changes to your Spotify account (i.e. adding playlists)
