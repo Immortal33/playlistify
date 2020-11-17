@@ -12,6 +12,7 @@ To use this tool, you need the following:
 First, lets setup some dependencies
 
 pip install spotipy --upgrade
+
 pip install beautifulsoup4
 
 You also need to set up your Spotify account to be a developer account (see: https://developer.spotify.com/documentation/web-api/quick-start/) . Once that's done, you'll need to create an application. You can call it Playlistify, or whatever you want. Once you create the app you'll get your Client ID and Client Secret, which you'll need for later in the setup process. 
