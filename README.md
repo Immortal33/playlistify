@@ -1,5 +1,5 @@
 # Playlistify
-A simple web parser to create Spotify playlists. As of v1.0.0, it's very rudimentary. There's basically no error checking/handling, and it only works if the website you're parsing has Spotify album links (not single tracks, etc). In later versions I hope to support other Spotify link types as well as cross-platform links (i.e. create a spotify playlist from a source of YouTube links), but that was outside of the scope of my Saturday project :).
+A simple web parser to create Spotify playlists. As of v1.0.0, it's very rudimentary. There's basically no error checking/handling, and it only works if the website you're parsing has Spotify album links (not single tracks, etc). In later versions I hope to support error checking/handling and other Spotify link types, as well as cross-platform links (i.e. create a spotify playlist from a source of YouTube links), but that was outside of the scope of my Saturday project :).
 
 ## Background
 Built using Python 3.7.3. 
