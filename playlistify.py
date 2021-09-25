@@ -7,52 +7,61 @@
 #   spotify_secrets.py - file that contains your auth creds/keys for Spotify
 #
 # Eric Boyer
-# November 2020
+# v1.1 September 2021
 ##########################################################################################
 
 # Import required modules
 import spotipy
 from spotify_secrets import client_id, client_secret, redirect_uri
 from spotipy.oauth2 import SpotifyOAuth
-from bs4 import BeautifulSoup
-import requests
+import cloudscraper
 import re
-import pprint
+  
+def Find(string):
+    # This function compiles the regex to look for spotify album URLs
+    # Returns: list of spotify album URLs
+    
+    # Match on https://open.spotify.com and any characters until a backslash, because there are unicode escape sequences.
+    # Should probably make this just match the total number of characters in a Spotify Album URL (always the same so far)
+    # As of this writing we're parsing the content of the whole page instead of using BeautifulSoup as in previous versions.
+    regex = r"https:\/\/open\.spotify\.com\/album\/.+?(?=\\)"
+    url = re.findall(regex,string)      
+    return [x for x in url]
 
 def gather_vars():
     # This function asks the user to supply the URL that they want to use to generate their new Spotify playlist,
     # as well as asking for a name for their new playlist. 
+
     print('\nWelcome to Playlistify!\n')
-    source_url = input ('Enter the website URL that you want to pull Spotify URLs from to make the playlist: ')
+    source_url = input('Enter the website URL that you want to pull Spotify URLs from to make the playlist: ')
     playlist_name = input('Enter the name of the playlist you wish to create: ')
     
-    # Grab the HTML source for the supplied URL, return vars
-    url = requests.get(source_url)
-    return url, playlist_name
+    ## Grab the HTML source for the supplied URL, return vars
+    return source_url, playlist_name
 
-def parse_html(url):
-    # This function takes the HTML from the previous function and parses it using BeautifulSoup
-    data = url.text
-    soup = BeautifulSoup(data, 'lxml')
+def parse_html(source_url):
+    # This function takes the URL as input, parses the contents for Spotify Album URLs and returns a list of those URLs
     
-    # We want to get only links, specifically only open.spotify.com/album/ links
-    # Future updates could add different URL types 
-    tags = soup.find_all('a', {'href': re.compile(r'open\.spotify\.com/album')})
+    # To get around CloudFlare hosting issues, we use the Cloudscraper module to create a session object instead of requests/etc
+    scraper = cloudscraper.create_scraper()
     
-    # Initialize album_url list 
-    album_urls = []
+    # Do a GET within the session of the actual HTML/JS source
+    data = scraper.get(source_url).text
+
+    # Populate album_urls with the URLs
+    album_urls = Find(data)
 
     print('\nFound the following Spotify album URLs: \n')
-    
-    # We iterate through the list of URLs and remove any HTML tags and query strings,
-    # and we return the list of URLs as output
-    for tag in tags:
-        tag = tag.get('href')
-        split_string = tag.split('?',1)
-        tag = split_string[0]
-        album_urls.append(tag)
-        print(tag)
-    return album_urls
+    print(*album_urls, sep='\n')
+
+    # A conditional to exit the script if no URLs were found from the HTML source, but return that list otherwise
+    if album_urls:
+        number_of_albums = len(album_urls)
+        print('\nFound a total of {} album URLs\n'.format(number_of_albums))
+        return album_urls
+    else:
+        print('No compatible Spotify album URLs were found. Goodbye!')
+        exit()
 
 def create_playlist(playlist_name, album_urls):
     # This function takes the list of URLs and our playlist name that we gathered in the above two functions, and uses those to 
