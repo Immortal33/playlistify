@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "playlistify"
+version = "2.0.0"
+description = "Python script for parsing web pages for Spotify URLs and creating Spotify playlists"
+authors = ["Eric Boyer <ebboyer@mtu.edu>"]
+license = "This is just a piece of paper that says 'I do what I want'"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+spotipy = "2.16.1"
+cloudscraper = "1.2.58"
+tqdm = "^4.62.3"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

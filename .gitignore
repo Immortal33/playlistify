@@ -1,3 +1,5 @@
 # .gitignore
 .cache
 __pycache__
+spotify_secrets.py
+poetry.lock
