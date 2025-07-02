@@ -16,7 +16,8 @@ from spotify_secrets import client_id, client_secret, redirect_uri
 from spotipy.oauth2 import SpotifyOAuth
 import cloudscraper
 import re
-  
+from tqdm import tqdm  
+
 def Find(string):
     # This function compiles the regex to look for spotify album URLs
     # Returns: list of spotify album URLs
@@ -24,7 +25,7 @@ def Find(string):
     # Match on https://open.spotify.com and any characters until a backslash, because there are unicode escape sequences.
     # Should probably make this just match the total number of characters in a Spotify Album URL (always the same so far)
     # As of this writing we're parsing the content of the whole page instead of using BeautifulSoup as in previous versions.
-    regex = r"https:\/\/open\.spotify\.com\/album\/.+?(?=\\)"
+    regex = r"https:\/\/open\.spotify\.com\/album\/.+?(?=\\|\s|\?)"
     url = re.findall(regex,string)      
     return [x for x in url]
 
@@ -84,7 +85,7 @@ def create_playlist(playlist_name, album_urls):
     playlist_tracks = []
     track_dicts = []
 
-    print('\nFound the following tracks to add to your playlist: \n')
+    print('\nAdding tracks to your playlist: \n')
 
     # There's probably a cleaner way to do this, but this works for now. We iterate through the album URLs and get the track
     # IDs for all tracks in all albums. 
@@ -94,15 +95,19 @@ def create_playlist(playlist_name, album_urls):
         while results['next']:
             results = sp.next(results)
             track_dicts.extend(results['items'])
+    # print(track_dicts.keys())
+    # print(track_dicts.values())
+    # print(track_dicts.items())
     for track in track_dicts:
         playlist_tracks.append(track['id'])
-        print(track['name'])
+        # print('Artist: ' + track['artist'] + ' - Album: ' + track['album'] + ' - Track: ' + track['name'])
+        # print(track['name'])
     # Spotipy function that makes the API call to add our tracks to the playlist 
-    for track in playlist_tracks:
+    for track in tqdm(playlist_tracks):
         track_array = []
         track_array.append(track)
         sp.playlist_add_items(playlist_id, track_array)
-        print('\nAdding track...\n')
+        # print('\nAdding track...\n')
 
 def main():
     # The main function, which calls all of the previous functions.
